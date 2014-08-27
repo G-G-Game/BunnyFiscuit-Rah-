@@ -1,0 +1,124 @@
+__author__ = 'sarosh'
+
+wallet = 6
+inventory = []
+weapons = ['Sword', 'Dagger', 'Axe']
+armor = ['Leather Coat', 'Leather Leggings']
+equipment = ['Weapons', 'Armor']
+name = ""
+
+# lista för inventory items
+def inventoryList(inventoryItems):
+    for x in range(len(inventoryItems)):
+        print "%s" % (inventoryItems[x])
+
+# lista för antal pengar i wallet
+def walletList(wallet):
+    print wallet
+
+# lista för olika sort av equipment
+def sortsList(listOfEquipment):
+    for x in range(len(listOfEquipment)):
+        print "%d.%s" % (x + 1, listOfEquipment[x])
+
+# lista för equipment
+def itemList(listOfGear):
+    # if len(listOfGear) == 0:
+    #print "I have nothing to sell!"
+    #else:
+    for x in range(len(listOfGear)):
+        print "%d.%s" % (x + 1, listOfGear[x])
+
+
+def intro():
+    global name, direction
+
+    print "You're in the middle of the desert. Standing in front of what seems like a little town.\n" \
+          "It's difficult to see anything but figures are seen in a distance.\n" \
+          "People are clad in robes with a mix of dark to light colors of dirt.\n" \
+          "Each carrying a pouch for his silver and gold on one side, and a blade on the other.\n" \
+          "It's difficult to hear what they're saying, the sand is in the air and the wind is blowing strongly.\n" \
+          "A man approaches from the distance. He takes off his hood. He seems to be very old."
+    name = raw_input("What is your name, adventurer? \n"
+                     "> ")
+    print "Welcome %s, to the town of Rah" % (name)
+    town()
+
+
+def town():
+    print "On the east side of the town you'll find The Blacksmith. Head over there to get gear up before you embark on further adventures.\n" \
+          "I sneaked some silver into your pouch to help you get started. Enough to buy a weapon and a piece of leather armor ;)" \
+          "To check your inventory, type inventory and hit 'Enter'."
+    action()
+
+
+def action():
+    will = raw_input("So " + name + ", what's your next move?\n"
+                                    "> ")
+    if will == "inventory":
+        print inventoryList(inventory)
+        print str(wallet) + " Silver Pieces"
+        action()
+    elif will == "east":
+        east()
+    else:
+        print "Sorry that is not a valid destination."
+        action()
+
+
+def east():
+    approach = raw_input("You hear a hammerstrikes on an anvil from a distance.\n"
+                         "Approach the sound? (y/n) > ")
+    if approach == "yes" or approach == "y":
+        print "Hello there stranger you must be new! Welcome to my weapon shop, I'm the town's blacksmith hoping to provide all you need when regarding equipment!\n" \
+              "If you want to check my storage for weapons or armor, enter 'buy'\n"
+        blackSmith()
+    else:
+        print "You head back to town."
+        town()
+
+
+def verification():
+    verify = raw_input("Are you sure you want to buy this piece? Because there's no going back. > ")
+    if verify == "yes" or verify == "y":
+        print "You have a new item in your inventory!"
+        # wallet = wallet - 3  <--- FIX THIS!!
+        blackSmith()
+    else:
+        blackSmith()
+
+
+def blackSmith():
+    action = raw_input("What you would you like to do? > \n")
+    if action == "inventory":
+        print inventoryList(inventory)
+        print str(wallet) + " Silver Pieces"
+        blackSmith()
+    elif action == "buy":
+        sortsList(equipment)
+        action = raw_input("> ")
+        if action == "1":
+            itemList(weapons)
+            weapon = raw_input("Type 1, 2, or 3 > ")
+            if weapon == "1":
+                verification()
+
+            elif weapon == "2":
+                verification()
+
+            elif weapon == "3":
+                verification()
+
+            else:
+                print "Not a weapon."
+
+        elif action == "2":
+            itemList(armor)
+        else:
+            print "Sorry we don't have any other item lists!"
+    else:
+        print "Stop wasting my time!"
+
+
+intro()
+
