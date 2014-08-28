@@ -1,7 +1,7 @@
 #Updated
 # EQUIPMENT ADVENTURER
 
-wallet = 3
+wallet = 15
 inventory = []
 weapons = ['Sword', 'Dagger', 'Bow']
 armor = ['Leather Coat', 'Leather Leggings']
