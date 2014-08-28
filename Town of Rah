@@ -1,12 +1,12 @@
-#Updated
+__author__ = "Sarosh"
+
 # EQUIPMENT ADVENTURER
 
-wallet = 15
+wallet = 3
 inventory = []
 weapons = ['Sword', 'Dagger', 'Bow']
 armor = ['Leather Coat', 'Leather Leggings']
 equipment = ['Weapons', 'Armor']
-bought = wallet - 3
 name = ""
 
 
@@ -15,8 +15,7 @@ def inventoryList(inventoryItems):
         print "You have no equipment."
     else:
         for x in range(len(inventoryItems)):
-            print "You have:\n" \
-                  "a %s" % (inventoryItems[x])
+            print "a %s" % (inventoryItems[x])
 
 
 def walletList(wallet):
@@ -24,6 +23,8 @@ def walletList(wallet):
 
 
 def sortsList(listOfEquipment):
+    if len(listOfEquipment) == 0:
+        print "We're out of stock."
     for x in range(len(listOfEquipment)):
         print "%d.%s" % (x + 1, listOfEquipment[x])
 
@@ -50,9 +51,10 @@ def intro():
 
 
 def town():
-    print "On the east side of the town you'll find The Blacksmith. Head over there to start and end your adventure.\n"\
+    print "[G] = Game, [BS] = Blacksmith\n" \
+          "On the east side of the town you'll find The Blacksmith. Head over there to start and end your adventure.\n"\
           "I sneaked some silver into your pouch to help you get started. Enough to buy all weapons and armors ;)\n" \
-          "To check your inventory, type inventory and hit 'Enter'."
+          "To check your inventory, type 'inventory' and hit 'Enter'."
     action()
 
 
@@ -76,79 +78,80 @@ def action():
             print "[G] You don't know what you're doing. Back to the entrance with you!"
             action()
     else:
-        print "[%s] *Whistle~*" % (name)
+        print "*Whistle~*"
         action()
 
-"""
-def verification():
-    verify = raw_input("Are you sure you want to buy this piece? Because there's no going back. > ")
-    if verify == "yes" or verify == "y":
-        print "You have a new item in your inventory!"
-        print "Silver Coins: " + str(bought) + " Silver Pieces"
-        blackSmith()
-    else:
-        blackSmith()
-"""
-
-
 def blackSmith():
-    print "[BS] Hello there stranger you must be new! Welcome to my weapon shop, I'm the town's blacksmith hoping to provide all you need when regarding equipment!\n" \
-          "If you want to check my storage for weapons or armor, enter 'buy'"
-    action = raw_input("[G] What you would you like to do? \n"
-                       "> ")
-    if action == "inventory":
-        print "[G] You check your inventory.."
-        inventoryList(inventory)
-        print str(wallet) + " Silver Coins"
-        blackSmith()
-    elif action == "buy":
-        sortsList(equipment)
-        pick = raw_input("> ")
-        if pick == "1":
+    global wallet
+    if wallet > 0:
 
-            itemList(weapons)
-            weapon = raw_input("Type 1, 2, or 3 > ")
-            if weapon == "1":
-                inventory.append(weapons[0])
-                weapons.remove(weapons[0])
-                print "[G] You have a new item in your inventory!"
-            elif weapon == "2":
-                inventory.append(weapons[1])
-                weapons.remove(weapons[1])
-                print "[G] You have a new item in your inventory!"
-            elif weapon == "3":
-                inventory.append(weapons[2])
-                weapons.remove(weapons[2])
-                print "[G] You have a new item in your inventory!"
-            else:
-                print "[BS] Uhh.. what?"
-                blackSmith()
+        print "[BS] Welcome to my weapon shop, I'm the town's blacksmith hoping to provide all you need when regarding equipment!\n" \
+              "If you want to check my storage for weapons or armor, enter 'buy' or to check your inventory, enter 'inventory'"
+        action = raw_input("[G] What you would you like to do? \n"
+                           "> ")
+        if action == "inventory":
+            print "[G] You check your inventory.."
+            inventoryList(inventory)
+            print str(wallet) + " Silver Coins"
+            blackSmith()
+        elif action == "buy":
+            sortsList(equipment)
+            pick = raw_input("> ")
+            if pick == "1":
 
-        elif pick == "2":
-            itemList(armor)
-            armors = raw_input("[G] Type 1 or 2 > ")
-            if armors == "1":
-                inventory.append(armor[0])
-                armor.remove(armor[0])
-                print "[G] You have a new item in your inventory!"
-            elif armors == "2":
-                inventory.append(armor[1])
-                armor.remove(armor[1])
-                print "[G] You hae a new item in your inventory!"
+                itemList(weapons)
+                weapon = raw_input("Pick your choice > ")
+                if weapon == "1":
+                    inventory.append(weapons[0])
+                    weapons.remove(weapons[0])
+                    wallet -= 3
+                    print "[G] You have a new item in your inventory!"
+                    blackSmith()
+
+                elif weapon == "2":
+                    inventory.append(weapons[1])
+                    weapons.remove(weapons[1])
+                    wallet -= 3
+                    print "[G] You have a new item in your inventory!"
+                    blackSmith()
+                elif weapon == "3":
+                    inventory.append(weapons[2])
+                    weapons.remove(weapons[2])
+                    wallet -= 3
+                    print "[G] You have a new item in your inventory!"
+                    blackSmith()
+                else:
+                    print "[BS] Uhh.. what?"
+                    blackSmith()
+
+            elif pick == "2":
+                itemList(armor)
+                armors = raw_input("[G] Type 1 or 2 > ")
+                if armors == "1":
+                    inventory.append(armor[0])
+                    armor.remove(armor[0])
+                    wallet -= 3
+                    print "[G] You have a new item in your inventory!"
+                    blackSmith()
+                elif armors == "2":
+                    inventory.append(armor[1])
+                    armor.remove(armor[1])
+                    wallet -= 3
+                    print "[G] You hae a new item in your inventory!"
+                    blackSmith()
+                else:
+                    print "[BS] Seriously dude..."
+                    blackSmith()
             else:
-                print "[BS] Seriously dude..."
-                blackSmith()
+                print "[BS]Sorry I don't have any other item lists!"
         else:
-            print "[BS]Sorry I don't have any other item lists!"
-    else:
-        print "[BS]Stop wasting my time!"
-        blackSmith()
+            print "[BS]Stop wasting my time!"
+            blackSmith()
 
 
-while (wallet > 0):
+while wallet > 0:
     intro()
-    print bought + " Silver Coins"
     replay = raw_input('[G] Congratulations!! You acquired all the equipment and completed EQUIPMENT ADVENTURER!\n'
-                       'Would you like to play again? > ') % (name)
+                       'Would you like to play again? > ')
     if replay == "yes" or replay == "y":
         reload(intro())
